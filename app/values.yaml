@@ -1,0 +1,67 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+revisionHistoryLimit: 5
+
+image:
+  repository: ""
+  tag: develop
+  pullPolicy: IfNotPresent
+imageCredentials:
+  registry: registry.gitlab.com
+service:
+  enabled: true
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 80
+debugService:
+  enabled: false
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
+deployment:
+  annotations: {}
+  template:
+    annotations: {}
+ingress:
+  enabled: true
+  traefikV2:
+    enabled: false
+    basicAuth:
+      enabled: false
+      secretName: ""
+    http: false
+  priority: 1
+  annotations:
+    kubernetes.io/ingress.class: traefik
+resources: {}
+probes:
+  { enabled: true, liveness: { path: /health }, readiness: { path: /health } }
+migration:
+  enabled: false
+env: {}
+nodeSelector: {}
+extraSecretMounts: []
+# - name: jaeger-tls
+#   mountPath: /tls
+#   subPath: ""
+#   secretName: jaeger-tls
+#   readOnly: true
+extraConfigmapMounts: []
+# - name: jaeger-config
+#   mountPath: /config
+#   subPath: ""
+#   configMap: jaeger-config
+#   readOnly: true
+
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#add-configmap-data-to-a-volume
+# volumeMounts: {}
+# volumes: {}
+# secretVolumes:
+#   - volumeName: 'tls'
+#     mountPath: '/tls'
+#     secretName: 'secret'
+
+cronJobs: []
